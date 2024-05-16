@@ -1,0 +1,9 @@
+:root{
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+}
+
+.code, code, pre{
+    font-family: "Roboto Mono", monospace !important;
+    font-optical-sizing: auto;
+}
