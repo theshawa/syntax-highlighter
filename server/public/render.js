@@ -14,10 +14,14 @@ const COLORS = [
 const render = ()=>{
     if(!window.TOKENS || !window.CODE) return;
     const code = window.CODE
-
     const renderElement = document.getElementById("output")
-    const previewElemet = document.getElementById("preview")
-    previewElemet.innerText = code
+    const previewElement = document.getElementById("preview")
+    previewElement.innerText = code
+
+    if(!window.TOKENS.length){
+        renderElement.innerText = code
+        return;
+    }
     const parts = []
     let prevEnd = 0;
     const classNames = []
