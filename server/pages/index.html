@@ -44,9 +44,9 @@
         </form>
     {{else}}
         <form action="/output" method="post" class="flex flex-col">
-            <textarea required name="code" class="code bg-white h-64 rounded-lg border w-full p-5 outline-none placeholder:text-slate-400" placeholder="Paste your code here..."></textarea>
-            <select required name="language" class="px-4 py-2 rounded-full border outline-none font-medium w-full sm:w-max max-w-full mx-auto text-sm mt-5 text-center">
-                <option selected>Select Language</option>
+            <textarea required="required" name="code" class="code bg-white h-64 rounded-lg border w-full p-5 outline-none placeholder:text-slate-400" placeholder="Paste your code here..."></textarea>
+            <select required="required" name="language" class="px-4 py-2 rounded-full border outline-none font-medium w-full sm:w-max max-w-full mx-auto text-sm mt-5 text-center">
+                <option selected value="">Select Language</option>
                 {{range $availableLanguages}}
                 <option value="{{.Value}}">{{.Name}}</option>
                 {{end}}
