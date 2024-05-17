@@ -27,6 +27,7 @@ const render = ()=>{
     const classNames = []
     const theme = {}
     let colorIndex = -1
+
     window.TOKENS.forEach(token=>{
         if(token.Start - prevEnd>0){
             parts.push({
@@ -44,12 +45,20 @@ const render = ()=>{
         }
         prevEnd = token.End
     })
-    console.log(classNames)
+
+    if(window.TOKENS[window.TOKENS.length-1].End !==code.length){
+        parts.push({
+            content:code.substring(window.TOKENS[window.TOKENS.length-1].End,code.length),
+            highlighted:null
+        })
+    }
+
     parts.forEach(part=>{
         const el = document.createElement("span")
 
         if(part.highlighted){
             el.style.color = theme[part.highlighted]
+            el.className = part.highlighted
         }
         el.innerText = part.content
         renderElement.append(el)
