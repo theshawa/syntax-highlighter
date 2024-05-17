@@ -11,59 +11,53 @@ const COLORS = [
     "#FF5733", "#FF8A65", "#FFBFA1", "#FFDAB9", "#FFB6C1"
 ];
 
+const getTheme = ()=>{
+    if(!window.PATTERNS) return {}
+    const classes = window.PATTERNS.map(p=>p.Class)
+    classes.sort()
+    const theme = {}
+    classes.map((cls,i)=>{
+        theme[cls] = COLORS[i%COLORS.length]
+    })
+    return theme
+}
+
+const codePreviewElement = document.getElementById("preview")
+const outputPreviewElement = document.getElementById("output")
+const theme = getTheme()
+const appendSpan = (content="",cls="")=>{
+    const el = document.createElement("span")
+    el.innerText = content
+    if(cls){
+        el.style.color = theme[cls]
+        el.className = cls
+    }
+    outputPreviewElement.append(el)
+}
+
 const render = ()=>{
-    if(!window.TOKENS || !window.CODE) return;
+    if(!window.TOKENS || !window.CODE || !window.PATTERNS) return;
+
     const code = window.CODE
-    const renderElement = document.getElementById("output")
-    const previewElement = document.getElementById("preview")
-    previewElement.innerText = code
+    codePreviewElement.innerText = code
 
     if(!window.TOKENS.length){
-        renderElement.innerText = code
+        outputPreviewElement.innerText = code
         return;
     }
-    const parts = []
-    let prevEnd = 0;
-    const classNames = []
-    const theme = {}
-    let colorIndex = -1
 
+    let prevEnd = 0;
     window.TOKENS.forEach(token=>{
         if(token.Start - prevEnd>0){
-            parts.push({
-                content:code.substring(prevEnd,token.Start),
-                highlighted:null
-            })
+            appendSpan(code.substring(prevEnd,token.Start),null)
         }
-        parts.push({
-            content:code.substring(token.Start,token.End),
-            highlighted:token.Type
-        })
-        if(!Object.keys(theme).includes(token.Type)){
-            theme[token.Type] = COLORS[(colorIndex+1)%COLORS.length]
-            colorIndex++
-        }
+        appendSpan(code.substring(token.Start,token.End),token.Class)
         prevEnd = token.End
     })
 
-    if(window.TOKENS[window.TOKENS.length-1].End !==code.length){
-        parts.push({
-            content:code.substring(window.TOKENS[window.TOKENS.length-1].End,code.length),
-            highlighted:null
-        })
+    if(prevEnd !==code.length){
+        appendSpan(code.substring(prevEnd,code.length),null)
     }
-
-    parts.forEach(part=>{
-        const el = document.createElement("span")
-
-        if(part.highlighted){
-            el.style.color = theme[part.highlighted]
-            el.className = part.highlighted
-        }
-        el.innerText = part.content
-        renderElement.append(el)
-    })
-
 }
 
 render()

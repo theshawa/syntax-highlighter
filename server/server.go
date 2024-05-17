@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type Server struct {
@@ -45,7 +46,7 @@ func (s *Server) init() {
 		})
 	})
 	s.engine.POST("/output", func(c *gin.Context) {
-		code := c.PostForm("code")
+		code := strings.TrimSpace(c.PostForm("code"))
 		language := c.PostForm("language")
 		tokens, err := s.highlighter.Highlight(code, language)
 		if err != nil {

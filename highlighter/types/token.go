@@ -1,7 +1,7 @@
 package types
 
 type Token struct {
-	Type    TokenType
+	Class   Class
 	Start   int
 	End     int
 	Content string
