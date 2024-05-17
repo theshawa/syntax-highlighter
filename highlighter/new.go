@@ -11,7 +11,6 @@ func New() *Highlighter {
 			"xml":  languages.XML,
 			"html": languages.HTML,
 			"json": languages.JSON,
-			"yaml": languages.YAML,
 		},
 	}
 }
